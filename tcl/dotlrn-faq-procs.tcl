@@ -19,6 +19,13 @@ ad_library {
 
 namespace eval dotlrn_faq {
     
+    ad_proc -public get_pretty_name {
+    } {
+	get the pretty name
+    } {
+	return "Frequently Asked Questions"
+    }
+
     ad_proc -public package_key {
     } {
 	get the package_key this applet deals with
