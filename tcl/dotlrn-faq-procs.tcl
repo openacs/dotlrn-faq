@@ -92,30 +92,32 @@ namespace eval dotlrn_faq {
     }
 
     ad_proc -public remove_applet_from_community {
-        comminuty_id
+        community_id
     } {
         Drops the faq applet from the given community
     } {
         # remove the faq admin portlet from the comm's admin page
         set admin_portal_id \
-                [dotlrn_community::get_admin_portal_id -community_id $community_id]
-        set admin_element_id [portal::get_element_ids_by_ds \
-                $admin_portal_id \
-                [faq_admin_portlet::get_my_name]
-        ] 
+                [dotlrn_community::get_admin_portal_id \
+                    -community_id $community_id
+        ]
 
-        portal::remove_element $admin_element_id 
+        portal::remove_element \
+                -portal_id $admin_portal_id \
+                -portlet_name [faq_admin_portlet::get_my_name]
 
         # remove the faq portlet from the comm's portal
         set portal_id \
                 [dotlrn_community::get_portal_id -community_id $community_id]
 
-        portal::remove_element [portal::get_element_ids_by_ds \
-                $portal_id \
-                [faq_portlet::get_my_name]
-        ]
+        portal::remove_element \
+                -portal_id $portal_id \
+                -portlet_name [faq_portlet::get_my_name]
 
-
+        site_node_delete_package_instance \
+            -node_id [dotlrn::get_community_applet_node_id \
+                          -community_id $community_id \
+                          -package_key [package_key]]
     }
 
     ad_proc -public add_user {
