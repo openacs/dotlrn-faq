@@ -3,7 +3,7 @@
 <queryset>
 <rdbms><type>oracle</type><version>8.1.6</version></rdbms>
 
-<fullquery name="dotlrn_faq::clone_helper.clone">
+<fullquery name="dotlrn_faq::clone.call_faq_clone">
   <querytext>
     begin
       faq.clone ( 

@@ -230,34 +230,13 @@ namespace eval dotlrn_faq {
         Clone this applet's content from the old community to the new one
     } {
         ns_log notice "Cloning: [applet_key]"
-        add_applet_to_community $new_community_id
-
-        clone_helper \
-            -old_community_id $old_community_id \
-            -new_community_id $new_community_id
-    }
-
-    ad_proc -private clone_helper {
-        {-old_community_id:required}
-        {-new_community_id:required}
-    } {
-        Actually clone the faq data
-    } {
-        ns_log notice "Cloning: [get_pretty_name] in clone_helper"
-
-        # get the faq package_id's for both comms
+        set new_package_id [add_applet_to_community $new_community_id]
         set old_package_id [dotlrn_community::get_applet_package_id \
                                 $old_community_id \
                                 [applet_key]
         ]
 
-        set new_package_id [dotlrn_community::get_applet_package_id \
-                                $new_community_id \
-                                [applet_key]
-        ]
-        
-        # call the faq pl/sql's "clone" op
-        db_exec_plsql clone {}
+        db_exec_plsql call_faq_clone {}
+        return $new_package_id
     }
-
 }
