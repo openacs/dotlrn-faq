@@ -49,6 +49,14 @@ namespace eval dotlrn_faq {
 	set package_key [package_key]
 	set package_id [dotlrn::instantiate_and_mount $community_id $package_key]
 
+	# portal template stuff
+	# get the portal_template_id by callback
+	set pt_id [dotlrn_community::get_portal_template_id $community_id]
+
+	# set up the DS for the portal template
+	faq_portlet::make_self_available $pt_id
+	faq_portlet::add_self_to_page $pt_id $package_id
+
 	# return the package_id
 	return $package_id
     }
