@@ -73,8 +73,6 @@ namespace eval dotlrn_faq {
         set portal_id [dotlrn_community::get_portal_id -community_id $community_id]
 
         # set up the DS for the portal template
-        faq_portlet::make_self_available $portal_id
-
         if {[dotlrn_community::dummy_comm_p -community_id $community_id]} {
             faq_portlet::add_self_to_page $portal_id 0
             return
@@ -87,11 +85,37 @@ namespace eval dotlrn_faq {
 
         # set up the DS for the admin page
         set admin_portal_id [dotlrn_community::get_admin_portal_id -community_id $community_id]
-        faq_admin_portlet::make_self_available $admin_portal_id
         faq_admin_portlet::add_self_to_page $admin_portal_id $package_id
 
         # return the package_id
         return $package_id
+    }
+
+    ad_proc -public remove_applet_from_community {
+        comminuty_id
+    } {
+        Drops the faq applet from the given community
+    } {
+        # remove the faq admin portlet from the comm's admin page
+        set admin_portal_id \
+                [dotlrn_community::get_admin_portal_id -community_id $community_id]
+        set admin_element_id [portal::get_element_ids_by_ds \
+                $admin_portal_id \
+                [faq_admin_portlet::get_my_name]
+        ] 
+
+        portal::remove_element $admin_element_id 
+
+        # remove the faq portlet from the comm's portal
+        set portal_id \
+                [dotlrn_community::get_portal_id -community_id $community_id]
+
+        portal::remove_element [portal::get_element_ids_by_ds \
+                $portal_id \
+                [faq_portlet::get_my_name]
+        ]
+
+
     }
 
     ad_proc -public add_user {
