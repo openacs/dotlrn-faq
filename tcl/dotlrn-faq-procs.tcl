@@ -130,26 +130,28 @@ namespace eval dotlrn_faq {
     } {
         Called when a user is added to a specific dotlrn community
     } {
+        # Get the faq applet's package_id by callback
+        set package_id [dotlrn_community::get_applet_package_id \
+                $community_id \
+                dotlrn_faq
+        ]
+
         # Get the portal_id by callback
         set portal_id [dotlrn_community::get_portal_id $community_id $user_id]
 
-        # Get the faq applet's package_id by callback
-        set package_id [dotlrn_community::get_applet_package_id $community_id dotlrn_faq]
-
-        # Allow user to see the faq forums
-        # nothing for now
-
-        # Make faq DS available to this page
-        faq_portlet::make_self_available $portal_id
-
-        # Call the portal element to be added correctly
-        faq_portlet::add_self_to_page $portal_id $package_id
+	if { [exists_and_not_null $portal_id] } {
+            # Make faq DS available to this page
+            faq_portlet::make_self_available $portal_id
+            
+            # Call the portal element to be added correctly
+            faq_portlet::add_self_to_page $portal_id $package_id
+        }
 
         # Now for the user workspace
         set workspace_portal_id [dotlrn::get_workspace_portal_id $user_id]
 
         # Add the portlet here
-        if { $workspace_portal_id != "" } {
+	if { [exists_and_not_null $workspace_portal_id] } {
             faq_portlet::add_self_to_page $workspace_portal_id $package_id
         }
     }
