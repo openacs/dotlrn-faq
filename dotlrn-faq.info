@@ -18,15 +18,6 @@
         <requires url="dotlrn" version="1.0"/>
         <requires url="faq-portlet" version="0.1a"/>
 
-        <files>
-            <file type="package_spec" path="dotlrn-faq.info"/>
-            <file type="data_model_create" db_type="oracle" path="sql/oracle/dotlrn-faq-create.sql"/>
-            <file type="data_model_create" db_type="postgresql" path="sql/postgresql/dotlrn-faq-create.sql"/>
-            <file type="data_model_drop" db_type="postgresql" path="sql/postgresql/dotlrn-faq-drop.sql"/>
-            <file type="query_file" db_type="oracle" path="tcl/dotlrn-faq-procs-oracle.xql"/>
-            <file type="query_file" db_type="postgresql" path="tcl/dotlrn-faq-procs-postgresql.xql"/>
-            <file type="tcl_procs" path="tcl/dotlrn-faq-procs.tcl"/>
-        </files>
         <parameters>
         <!-- No version parameters -->
         </parameters>
