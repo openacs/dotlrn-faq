@@ -80,8 +80,8 @@ namespace eval dotlrn_faq {
 	# Get the page_id by callback
 	set page_id [dotlrn_community::get_page_id $community_id $user_id]
 	
-	# Get the package_id by callback
-	set package_id [dotlrn_community::get_package_id $community_id]
+	# Get the faq applet's package_id by callback
+	set package_id [dotlrn_community::get_applet_package_id $community_id dotlrn_faq]
 
 	# Allow user to see the faq forums
 	# nothing for now
