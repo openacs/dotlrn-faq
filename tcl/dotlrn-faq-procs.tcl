@@ -86,7 +86,6 @@ namespace eval dotlrn_faq {
     }
 
     ad_proc -public add_user {
-	community_id
 	user_id
     } {
 	For one time user-specfic init 
