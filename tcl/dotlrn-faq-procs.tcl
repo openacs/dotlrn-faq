@@ -26,7 +26,7 @@ namespace eval dotlrn_faq {
 	return "dotLRN Frequently Asked Questions"
     }
 
-    ad_proc -public applet_key {
+    ad_proc -public applet_key {} {
         return "dotlrn_faq"
     }
 
