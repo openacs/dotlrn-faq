@@ -239,4 +239,14 @@ namespace eval dotlrn_faq {
         return $new_package_id
     }
 
+    ad_proc -public change_event_handler {
+        community_id
+        event
+        old_value
+        new_value
+    } { 
+        listens for the following events: 
+    } { 
+    }   
+
 }
