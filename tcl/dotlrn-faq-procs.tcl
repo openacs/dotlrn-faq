@@ -114,6 +114,12 @@ namespace eval dotlrn_faq {
 
 	# Call the portal element to be added correctly
 	faq_portlet::add_self_to_page $portal_id $package_id
+
+	# Now for the user workspace
+	set workspace_portal_id [dotlrn::get_workspace_portal_id $user_id]
+
+	# Add the portlet here
+	faq_portlet::add_self_to_page $workspace_portal_id $package_id
     }
 
     ad_proc -public remove_user {
