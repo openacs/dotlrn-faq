@@ -45,13 +45,9 @@ namespace eval dotlrn_faq {
     } {
 	Add the faq applet
     } {
-	# Callback to get node_id from community
-	# REVISIT this (ben)
-	set node_id [site_node_id [ad_conn url]]
-
-	# create the faq package instance (all in one, I've mounted it)
+	# create the calendar package instance (all in one, I've mounted it)
 	set package_key [package_key]
-	set package_id [site_node_mount_application -return package_id $node_id $package_key $package_key $package_key]
+	set package_id [dotlrn::instantiate_and_mount $community_id $package_key]
 
 	# return the package_id
 	return $package_id
