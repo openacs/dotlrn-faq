@@ -144,8 +144,8 @@ namespace eval dotlrn_faq {
     } {
         set portal_id [dotlrn::get_portal_id -user_id $user_id]
         set package_id [dotlrn_community::get_applet_package_id \
-                            $community_id \
-                            [applet_key]
+            -community_id $community_id \
+            -applet_key [applet_key]
         ]
 
         set args [ns_set create]
@@ -168,8 +168,8 @@ namespace eval dotlrn_faq {
     } {
         set portal_id [dotlrn::get_portal_id -user_id $user_id]
         set package_id [dotlrn_community::get_applet_package_id \
-                            $community_id \
-                            [applet_key]
+            -community_id $community_id \
+            -applet_key [applet_key]
         ]
 
         set args [ns_set create]
@@ -231,8 +231,8 @@ namespace eval dotlrn_faq {
         ns_log notice "Cloning: [applet_key]"
         set new_package_id [add_applet_to_community $new_community_id]
         set old_package_id [dotlrn_community::get_applet_package_id \
-                                $old_community_id \
-                                [applet_key]
+            -community_id $old_community_id \
+            -applet_key [applet_key]
         ]
 
         db_exec_plsql call_faq_clone {}
