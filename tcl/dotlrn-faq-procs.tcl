@@ -44,7 +44,7 @@ namespace eval dotlrn_faq {
     } {
 	Add the faq applet to dotlrn - one time init - must be repeatable!
     } {
-	return 1
+        dotlrn_community::add_applet_to_dotlrn -applet_key "dotlrn_faq"
     }
 
     ad_proc -public add_applet_to_community {
