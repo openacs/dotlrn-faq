@@ -57,6 +57,14 @@ namespace eval dotlrn_faq {
         dotlrn_applet::add_applet_to_dotlrn -applet_key [applet_key]
     }
 
+    ad_proc -public remove_applet {
+        community_id
+        package_id
+    } {
+        remove the applet
+    } {
+    }
+
     ad_proc -public add_applet_to_community {
         community_id
     } {
@@ -72,9 +80,8 @@ namespace eval dotlrn_faq {
             return
         }
 
-        # create the calendar package instance (all in one, I've mounted it)
-        set package_key [package_key]
-        set package_id [dotlrn::instantiate_and_mount $community_id $package_key]
+        # create the faq package instance (all in one, I've mounted it)
+        set package_id [dotlrn::instantiate_and_mount $community_id [package_key]]
 
         faq_portlet::add_self_to_page $portal_id $package_id
 
@@ -87,20 +94,11 @@ namespace eval dotlrn_faq {
         return $package_id
     }
 
-    ad_proc -public remove_applet {
-        community_id
-        package_id
-    } {
-        remove the applet from the community
-    } {
-    }
-
     ad_proc -public add_user {
         user_id
     } {
         For one time user-specfic init
     } {
-        return
     }
 
     ad_proc -public remove_user {
