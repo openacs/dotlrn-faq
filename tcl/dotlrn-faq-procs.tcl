@@ -65,6 +65,9 @@ namespace eval dotlrn_faq {
 	faq_portlet::make_self_available $pt_id
 	faq_portlet::add_self_to_page $pt_id $package_id
 
+	# Set up some permissions
+	# for FAQ, it's all good as is
+
 	# return the package_id
 	return $package_id
     }
