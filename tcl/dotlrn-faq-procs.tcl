@@ -29,7 +29,7 @@ namespace eval dotlrn_faq {
     } {
         get the pretty name
     } {
-        return "dotLRN Frequently Asked Questions"
+        return "Frequently Asked Questions"
     }
 
     ad_proc -public applet_key {} {
@@ -38,16 +38,9 @@ namespace eval dotlrn_faq {
 
     ad_proc -public package_key {
     } {
-        get the package_key this applet deals with
+        What package is associated with this applet?
     } {
         return "faq"
-    }
-
-    ad_proc portal_element_key {
-    } {
-        return the portal element key
-    } {
-        return "faq-portlet"
     }
 
     ad_proc -public add_applet {
@@ -63,6 +56,7 @@ namespace eval dotlrn_faq {
     } {
         remove the applet
     } {
+        ad_return_complaint 1 "[applet_key] remove_applet not implimented!"
     }
 
     ad_proc -public add_applet_to_community {
@@ -70,22 +64,50 @@ namespace eval dotlrn_faq {
     } {
         Add the faq applet to a specifc community
     } {
-        set portal_id [dotlrn_community::get_portal_id -community_id $community_id]
+        
+    }
 
-        # set up the DS for the portal template
-        if {[dotlrn_community::dummy_comm_p -community_id $community_id]} {
-            faq_portlet::add_self_to_page -portal_id $portal_id -package_id 0
-            return
-        }
+    ad_proc -public add_applet_to_community {
+        community_id
+    } {
+        Add the faq applet to a specifc community
+    } {
+        set portal_id [dotlrn_community::get_portal_id \
+                           -community_id $community_id
+        ]
 
         # create the faq package instance (all in one, I've mounted it)
-        set package_id [dotlrn::instantiate_and_mount $community_id [package_key]]
+        set package_id [dotlrn::instantiate_and_mount \
+                            $community_id \
+                            [package_key]
+        ]
 
-        faq_portlet::add_self_to_page -portal_id $portal_id -package_id $package_id
+        #
+        # portlet stuff
+        #
 
-        # set up the DS for the admin page
-        set admin_portal_id [dotlrn_community::get_admin_portal_id -community_id $community_id]
-        faq_admin_portlet::add_self_to_page -portal_id $admin_portal_id -package_id $package_id
+        # set up the admin portlet
+
+        set admin_portal_id [dotlrn_community::get_admin_portal_id \
+                                 -community_id $community_id
+        ]
+
+        faq_admin_portlet::add_self_to_page \
+            -portal_id $admin_portal_id \
+            -package_id $package_id
+
+        # set up the faq portlet for this community
+
+        set portal_id [dotlrn_community::get_portal_id \
+                           -community_id $community_id
+        ]
+
+        # add the portlet to the comm's portal using add_portlet_helper
+        set args [ns_set create]
+        ns_set put $args package_id $package_id
+        ns_set put $args param_action "overwrite"
+
+        dotlrn_faq::add_portlet_helper $portal_id $args
 
         # return the package_id
         return $package_id
@@ -96,28 +118,7 @@ namespace eval dotlrn_faq {
     } {
         Drops the faq applet from the given community
     } {
-        # remove the faq admin portlet from the comm's admin page
-        set admin_portal_id \
-                [dotlrn_community::get_admin_portal_id \
-                    -community_id $community_id
-        ]
-
-        portal::remove_element \
-                -portal_id $admin_portal_id \
-                -portlet_name [faq_admin_portlet::get_my_name]
-
-        # remove the faq portlet from the comm's portal
-        set portal_id \
-                [dotlrn_community::get_portal_id -community_id $community_id]
-
-        portal::remove_element \
-                -portal_id $portal_id \
-                -portlet_name [faq_portlet::get_my_name]
-
-        site_node_delete_package_instance \
-            -node_id [dotlrn::get_community_applet_node_id \
-                          -community_id $community_id \
-                          -package_key [package_key]]
+        ad_return_complaint 1 "[applet_key] remove_applet_from_community not implimented!"
     }
 
     ad_proc -public add_user {
@@ -125,12 +126,15 @@ namespace eval dotlrn_faq {
     } {
         For one time user-specfic init
     } {
+        # noop
     }
 
     ad_proc -public remove_user {
         user_id
     } {
+        Remove the user from dotlrn.
     } {
+        ad_return_complaint 1 "[applet_key] remove_user not implimented!"
     }
 
     ad_proc -public add_user_to_community {
@@ -139,10 +143,22 @@ namespace eval dotlrn_faq {
     } {
         Called when a user is added to a specific dotlrn community
     } {
-        set package_id [dotlrn_community::get_applet_package_id $community_id [applet_key]]
-        set portal_id [dotlrn::get_workspace_portal_id $user_id]
+        set portal_id [dotlrn::get_portal_id -user_id $user_id]
+        set package_id [dotlrn_community::get_applet_package_id \
+                            $community_id \
+                            [applet_key]
+        ]
 
-        faq_portlet::add_self_to_page -portal_id $portal_id -package_id $package_id
+        set args [ns_set create]
+        ns_set put $args package_id $package_id
+        ns_set put $args param_action "append"
+        
+        # don't use the cached version
+        dotlrn_faq::add_portlet_helper \
+            [dotlrn::get_portal_id_not_cached -user_id $user_id] \
+            $args
+
+        dotlrn_faq::add_portlet_helper $portal_id $args
     }
 
     ad_proc -public remove_user_from_community {
@@ -151,28 +167,46 @@ namespace eval dotlrn_faq {
     } {
         Remove a user from a community
     } {
-        set package_id [dotlrn_community::get_applet_package_id $community_id [applet_key]]
-        set portal_id [dotlrn::get_workspace_portal_id $user_id]
+        set portal_id [dotlrn::get_portal_id -user_id $user_id]
+        set package_id [dotlrn_community::get_applet_package_id \
+                            $community_id \
+                            [applet_key]
+        ]
 
-        set args [ns_set create args]
-        ns_set put $args user_id $user_id
-        ns_set put $args community_id $community_id
+        set args [ns_set create]
         ns_set put $args package_id $package_id
-        set list_args [list $portal_id $args]
 
         remove_portlet $portal_id $args
     }
 
     ad_proc -public add_portlet {
-        args
+        portal_id
     } {
         A helper proc to add the underlying portlet to the given portal. 
-        
-        @param args a list-ified array of args defined in add_applet_to_community
+
+        @portal_id 
     } {
-        ns_log notice "** Error in [get_pretty_name]: 'add_portlet' not implemented!"
-        ad_return_complaint 1  "Please notifiy the administrator of this error:
-        ** Error in [get_pretty_name]: 'add_portlet' not implemented!"
+        set args [ns_set create]
+        ns_set put $args package_id 0
+        ns_set put $args param_action "overwrite"
+
+        add_portlet_helper $portal_id $args
+    }
+
+    ad_proc -public add_portlet_helper {
+        portal_id
+        args
+    } {
+        This does the call to add the portlet to the given portal.
+        Params for the portlet are set by the calllers.
+        
+        @param portal_id
+        @param args An ns_set
+    } { 
+        faq_portlet::add_self_to_page \
+            -portal_id $portal_id \
+            -package_id [ns_set get $args "package_id"] \
+            -param_action [ns_set get $args "param_action"]
     }
 
     ad_proc -public remove_portlet {
@@ -182,23 +216,11 @@ namespace eval dotlrn_faq {
         A helper proc to remove the underlying portlet from the given portal. 
         
         @param portal_id
-        @param args A list of key-value pairs (possibly user_id, community_id, and more)
+        @param args An ns_set
     } { 
-        set user_id [ns_set get $args "user_id"]
-        set community_id [ns_set get $args "community_id"]
-
-        if {![empty_string_p $user_id]} {
-            # the portal_id is a user's portal
-            set faq_pacakge_id [ns_set get $args "faq_pacakge_id"]
-        } elseif {![empty_string_p $community_id]} {
-            # the portal_id is a community portal
-            ad_return_complaint 1  "[applet_key] aks1 unimplimented"
-        } else {
-            # the portal_id is a portal template
-            ad_return_complaint 1  "[applet_key] aks2 unimplimented"
-        }
-
-        faq_portlet::remove_self_from_page $portal_id $faq_pacakge_id
+        faq_portlet::remove_self_from_page \
+            -portal_id $portal_id \
+            -package_id [ns_set get $args "package_id"]
     }
 
     ad_proc -public clone {
@@ -207,9 +229,35 @@ namespace eval dotlrn_faq {
     } {
         Clone this applet's content from the old community to the new one
     } {
-        ns_log notice "** Error in [get_pretty_name] 'clone' not implemented!"
-        ad_return_complaint 1  "Please notifiy the administrator of this error:
-        ** Error in [get_pretty_name]: 'clone' not implemented!"
+        ns_log notice "Cloning: [applet_key]"
+        add_applet_to_community $new_community_id
+
+        clone_helper \
+            -old_community_id $old_community_id \
+            -new_community_id $new_community_id
+    }
+
+    ad_proc -private clone_helper {
+        {-old_community_id:required}
+        {-new_community_id:required}
+    } {
+        Actually clone the faq data
+    } {
+        ns_log notice "Cloning: [get_pretty_name] in clone_helper"
+
+        # get the faq package_id's for both comms
+        set old_package_id [dotlrn_community::get_applet_package_id \
+                                $old_community_id \
+                                [applet_key]
+        ]
+
+        set new_package_id [dotlrn_community::get_applet_package_id \
+                                $new_community_id \
+                                [applet_key]
+        ]
+        
+        # call the faq pl/sql's "clone" op
+        db_exec_plsql clone {}
     }
 
 }
