@@ -64,6 +64,11 @@ namespace eval dotlrn_faq {
 	faq_portlet::make_self_available $pt_id
 	faq_portlet::add_self_to_page $pt_id $package_id
 
+	# set up the DS for the admin page
+        set admin_portal_id [dotlrn_community::get_community_admin_portal_id $community_id]
+	faq_admin_portlet::make_self_available $admin_portal_id
+	faq_admin_portlet::add_self_to_page $admin_portal_id $package_id
+
 	# Set up some permissions
 	# for FAQ, it's all good as is
 
