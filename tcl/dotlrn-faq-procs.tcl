@@ -43,7 +43,15 @@ namespace eval dotlrn_faq {
     ad_proc -public add_applet {
 	community_id
     } {
-	Add the faq applet
+	Add the faq applet to dotlrn - one time init
+    } {
+	return
+    }
+
+    ad_proc -public add_applet_to_community {
+	community_id
+    } {
+	Add the faq applet to a specifc community
     } {
 	# create the calendar package instance (all in one, I've mounted it)
 	set package_key [package_key]
@@ -79,7 +87,16 @@ namespace eval dotlrn_faq {
 	community_id
 	user_id
     } {
-	Add a user to a community
+	For one time user-specfic init 
+    } {
+	return 
+    }
+
+    ad_proc -public add_user_to_community {
+	community_id
+	user_id
+    } {
+	Called when a user is added to a specific dotlrn community
     } {
 	# Get the page_id by callback
 	set page_id [dotlrn_community::get_page_id $community_id $user_id]
