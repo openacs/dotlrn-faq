@@ -36,6 +36,13 @@ namespace eval dotlrn_faq {
         return "dotlrn_faq"
     }
 
+    ad_proc -public my_package_key {
+    } {
+        What's my package key?
+    } {
+        return "dotlrn-faq"
+    }
+
     ad_proc -public package_key {
     } {
         What package is associated with this applet?
@@ -47,7 +54,7 @@ namespace eval dotlrn_faq {
     } {
         Add the faq applet to dotlrn - one time init - must be repeatable!
     } {
-        dotlrn_applet::add_applet_to_dotlrn -applet_key [applet_key]
+        dotlrn_applet::add_applet_to_dotlrn -applet_key [applet_key] -package_key [my_package_key]
     }
 
     ad_proc -public remove_applet {
