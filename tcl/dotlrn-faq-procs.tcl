@@ -26,6 +26,10 @@ namespace eval dotlrn_faq {
 	return "dotLRN Frequently Asked Questions"
     }
 
+    ad_proc -public applet_key {
+        return "dotlrn_faq"
+    }
+
     ad_proc -public package_key {
     } {
 	get the package_key this applet deals with
@@ -44,7 +48,7 @@ namespace eval dotlrn_faq {
     } {
 	Add the faq applet to dotlrn - one time init - must be repeatable!
     } {
-        dotlrn_community::add_applet_to_dotlrn -applet_key "dotlrn_faq"
+        dotlrn_community::add_applet_to_dotlrn -applet_key [applet_key]
     }
 
     ad_proc -public add_applet_to_community {
