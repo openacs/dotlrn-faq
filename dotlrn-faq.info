@@ -15,6 +15,7 @@
         <owner url="mailto:ben@openforce.net">Ben Adida</owner>
 
         <provides url="dotlrn-faq" version="0.1a"/>
+        <requires url="dotlrn" version="1.0"/>
         <requires url="faq-portlet" version="0.1a"/>
 
         <files>
