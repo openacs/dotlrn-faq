@@ -86,6 +86,9 @@ namespace eval dotlrn_faq {
 	# Allow user to see the faq forums
 	# nothing for now
 
+	# Make faq DS available to this page
+	faq_portlet::make_self_available $page_id
+
 	# Call the portal element to be added correctly
 	faq_portlet::add_self_to_page $page_id $package_id
     }
@@ -104,6 +107,9 @@ namespace eval dotlrn_faq {
 
 	# Remove the portal element
 	faq_portlet::remove_self_from_page $page_id $package_id
+
+	# Buh Bye.
+	faq_portlet::make_self_unavailable $page_id
 
 	# remove user permissions to see faqs
 	# nothing to do here
