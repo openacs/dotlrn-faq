@@ -72,16 +72,22 @@ namespace eval dotlrn_faq {
     } {
         Add the faq applet to a specifc community
     } {
-        # create the calendar package instance (all in one, I've mounted it)
-        set package_key [package_key]
-        set package_id [dotlrn::instantiate_and_mount $community_id $package_key]
-
         # portal template stuff
         # get the portal_template_id by callback
         set pt_id [dotlrn_community::get_portal_template_id $community_id]
 
         # set up the DS for the portal template
         faq_portlet::make_self_available $pt_id
+
+        if {[dotlrn_community::dummy_comm_p -community_id $community_id]} {
+            faq_portlet::add_self_to_page $pt_id 0
+            return
+        }
+
+        # create the calendar package instance (all in one, I've mounted it)
+        set package_key [package_key]
+        set package_id [dotlrn::instantiate_and_mount $community_id $package_key]
+
         faq_portlet::add_self_to_page $pt_id $package_id
 
         # set up the DS for the admin page
