@@ -23,7 +23,7 @@ namespace eval dotlrn_faq {
     } {
 	get the pretty name
     } {
-	return "Frequently Asked Questions"
+	return "dotLRN Frequently Asked Questions"
     }
 
     ad_proc -public package_key {
