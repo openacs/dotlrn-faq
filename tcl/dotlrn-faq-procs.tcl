@@ -98,8 +98,8 @@ namespace eval dotlrn_faq {
     } {
 	Called when a user is added to a specific dotlrn community
     } {
-	# Get the page_id by callback
-	set page_id [dotlrn_community::get_page_id $community_id $user_id]
+	# Get the portal_id by callback
+	set portal_id [dotlrn_community::get_portal_id $community_id $user_id]
 	
 	# Get the faq applet's package_id by callback
 	set package_id [dotlrn_community::get_applet_package_id $community_id dotlrn_faq]
@@ -108,10 +108,10 @@ namespace eval dotlrn_faq {
 	# nothing for now
 
 	# Make faq DS available to this page
-	faq_portlet::make_self_available $page_id
+	faq_portlet::make_self_available $portal_id
 
 	# Call the portal element to be added correctly
-	faq_portlet::add_self_to_page $page_id $package_id
+	faq_portlet::add_self_to_page $portal_id $package_id
     }
 
     ad_proc -public remove_user {
@@ -120,17 +120,17 @@ namespace eval dotlrn_faq {
     } {
 	Remove a user from a community
     } {
-	# Get the page_id
-	set page_id [dotlrn_community::get_page_id $community_id $user_id]
+	# Get the portal_id
+	set portal_id [dotlrn_community::get_portal_id $community_id $user_id]
 	
 	# Get the package_id by callback
 	set package_id [dotlrn_community::get_package_id $community_id]
 
 	# Remove the portal element
-	faq_portlet::remove_self_from_page $page_id $package_id
+	faq_portlet::remove_self_from_page $portal_id $package_id
 
 	# Buh Bye.
-	faq_portlet::make_self_unavailable $page_id
+	faq_portlet::make_self_unavailable $portal_id
 
 	# remove user permissions to see faqs
 	# nothing to do here
