@@ -64,14 +64,6 @@ namespace eval dotlrn_faq {
     } {
         Add the faq applet to a specifc community
     } {
-        
-    }
-
-    ad_proc -public add_applet_to_community {
-        community_id
-    } {
-        Add the faq applet to a specifc community
-    } {
         set portal_id [dotlrn_community::get_portal_id \
                            -community_id $community_id
         ]
@@ -152,7 +144,7 @@ namespace eval dotlrn_faq {
         set args [ns_set create]
         ns_set put $args package_id $package_id
         ns_set put $args param_action "append"
-        
+
         # don't use the cached version
         dotlrn_faq::add_portlet_helper \
             [dotlrn::get_portal_id_not_cached -user_id $user_id] \
@@ -182,9 +174,9 @@ namespace eval dotlrn_faq {
     ad_proc -public add_portlet {
         portal_id
     } {
-        A helper proc to add the underlying portlet to the given portal. 
+        A helper proc to add the underlying portlet to the given portal.
 
-        @portal_id 
+        @portal_id
     } {
         set args [ns_set create]
         ns_set put $args package_id 0
@@ -199,10 +191,10 @@ namespace eval dotlrn_faq {
     } {
         This does the call to add the portlet to the given portal.
         Params for the portlet are set by the calllers.
-        
+
         @param portal_id
         @param args An ns_set
-    } { 
+    } {
         faq_portlet::add_self_to_page \
             -portal_id $portal_id \
             -package_id [ns_set get $args "package_id"] \
@@ -213,11 +205,11 @@ namespace eval dotlrn_faq {
         portal_id
         args
     } {
-        A helper proc to remove the underlying portlet from the given portal. 
-        
+        A helper proc to remove the underlying portlet from the given portal.
+
         @param portal_id
         @param args An ns_set
-    } { 
+    } {
         faq_portlet::remove_self_from_page \
             -portal_id $portal_id \
             -package_id [ns_set get $args "package_id"]
@@ -239,4 +231,5 @@ namespace eval dotlrn_faq {
         db_exec_plsql call_faq_clone {}
         return $new_package_id
     }
+
 }
