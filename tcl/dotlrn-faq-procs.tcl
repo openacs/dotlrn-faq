@@ -150,12 +150,7 @@ namespace eval dotlrn_faq {
 
         set args [ns_set create]
         ns_set put $args package_id $package_id
-        ns_set put $args param_action "append"
-
-        # don't use the cached version
-        dotlrn_faq::add_portlet_helper \
-            [dotlrn::get_portal_id_not_cached -user_id $user_id] \
-            $args
+        ns_set put $args param_action append
 
         dotlrn_faq::add_portlet_helper $portal_id $args
     }
