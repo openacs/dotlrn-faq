@@ -138,16 +138,21 @@ namespace eval dotlrn_faq {
 	set portal_id [dotlrn_community::get_portal_id $community_id $user_id]
 	
 	# Get the package_id by callback
-	set package_id [dotlrn_community::get_package_id $community_id]
+	set package_id [dotlrn_community::get_applet_package_id $community_id [applet_key]]
 
 	# Remove the portal element
 	faq_portlet::remove_self_from_page $portal_id $package_id
 
 	# Buh Bye.
 	faq_portlet::make_self_unavailable $portal_id
+        
+        # Remove from main workspace
+        set workspace_portal_id [dotlrn::get_workspace_portal_id $user_id]
 
-	# remove user permissions to see faqs
-	# nothing to do here
+        # Remove the portlet
+        if {![empty_string_p $workspace_portal_id]} {
+            faq_portlet::remove_self_from_page $workspace_portal_id $package_id
+        }
     }
 	
 }
