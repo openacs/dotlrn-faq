@@ -120,6 +120,33 @@ begin
 	       'TCL'
 	);
 
+    -- AddPortlet
+    foo := acs_sc_impl.new_alias (
+        impl_contract_name => 'dotlrn_applet',
+        impl_name => 'dotlrn_faq',
+        impl_operation_name => 'AddPortlet',
+        impl_alias => 'dotlrn_faq::add_portlet',
+        impl_pl => 'TCL'
+    );
+
+    -- RemovePortlet
+    foo := acs_sc_impl.new_alias (
+        impl_contract_name => 'dotlrn_applet',
+        impl_name => 'dotlrn_faq',
+        impl_operation_name => 'RemovePortlet',
+        impl_alias => 'dotlrn_faq::remove_portlet',
+        impl_pl => 'TCL'
+    );
+
+    -- Clone
+    foo := acs_sc_impl.new_alias (
+        impl_contract_name => 'dotlrn_applet',
+        impl_name => 'dotlrn_faq',
+        impl_operation_name => 'Clone',
+        impl_alias => 'dotlrn_faq::clone',
+        impl_pl => 'TCL'
+    );
+
 	-- Add the binding
 	acs_sc_binding.new (
 	    contract_name => 'dotlrn_applet',
