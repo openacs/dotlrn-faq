@@ -29,7 +29,7 @@ namespace eval dotlrn_faq {
     } {
         get the pretty name
     } {
-        return "Frequently Asked Questions"
+        return "#faq.pretty_name#"
     }
 
     ad_proc -public applet_key {} {
