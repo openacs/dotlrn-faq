@@ -63,7 +63,7 @@ namespace eval dotlrn_faq {
     } {
         remove the applet
     } {
-        ad_return_complaint 1 "[applet_key] remove_applet not implimented!"
+        ad_return_complaint 1 "[applet_key] remove_applet not implemented!"
     }
 
     ad_proc -public add_applet_to_community {
@@ -117,13 +117,13 @@ namespace eval dotlrn_faq {
     } {
         Drops the faq applet from the given community
     } {
-        ad_return_complaint 1 "[applet_key] remove_applet_from_community not implimented!"
+        ad_return_complaint 1 "[applet_key] remove_applet_from_community not implemented!"
     }
 
     ad_proc -public add_user {
         user_id
     } {
-        For one time user-specfic init
+        For one time user-specific init
     } {
         # noop
     }
@@ -245,3 +245,9 @@ namespace eval dotlrn_faq {
     }   
 
 }
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:
