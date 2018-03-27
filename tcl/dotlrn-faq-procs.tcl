@@ -69,7 +69,7 @@ namespace eval dotlrn_faq {
     ad_proc -public add_applet_to_community {
         community_id
     } {
-        Add the faq applet to a specifc community
+        Add the faq applet to a specific community
     } {
         set portal_id [dotlrn_community::get_portal_id \
                            -community_id $community_id
