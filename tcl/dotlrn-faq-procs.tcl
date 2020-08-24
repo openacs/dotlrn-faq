@@ -242,10 +242,10 @@ namespace eval dotlrn_faq {
         event
         old_value
         new_value
-    } { 
+    } {
         Listens for the events. This is currently empty.
     } {
-    }   
+    }
 
 }
 
