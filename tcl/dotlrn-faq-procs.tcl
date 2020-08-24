@@ -123,7 +123,7 @@ namespace eval dotlrn_faq {
         ad_return_complaint 1 "[applet_key] remove_applet_from_community not implemented!"
     }
 
-    ad_proc -public add_user {
+    ad_proc -private add_user {
         user_id
     } {
         For one time user-specific init.
@@ -131,7 +131,7 @@ namespace eval dotlrn_faq {
         # noop
     }
 
-    ad_proc -public remove_user {
+    ad_proc -private remove_user {
         user_id
     } {
         Remove the user from dotlrn.
@@ -237,7 +237,7 @@ namespace eval dotlrn_faq {
         return $new_package_id
     }
 
-    ad_proc -public change_event_handler {
+    ad_proc -private change_event_handler {
         community_id
         event
         old_value
