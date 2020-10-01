@@ -66,7 +66,7 @@ namespace eval dotlrn_faq {
     } {
         Remove the applet.
     } {
-        ad_return_complaint 1 "[applet_key] remove_applet not implemented!"
+        dotlrn_applet::remove_applet_from_dotlrn -applet_key [applet_key]
     }
 
     ad_proc -public add_applet_to_community {
