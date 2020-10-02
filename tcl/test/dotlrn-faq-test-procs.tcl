@@ -31,8 +31,8 @@ aa_register_case -procs {
     } -cats {
         api
         production_safe
-    } news_portlet_names {
-        Test diverse name procs.
+    } dotlrn_faq_pretty_name {
+        Test get_pretty_name.
 } {
     aa_equals "dotlrn-faq pretty name" "[dotlrn_faq::get_pretty_name]" "#faq.pretty_name#"
 }
