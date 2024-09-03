@@ -60,13 +60,10 @@ namespace eval dotlrn_faq {
         dotlrn_applet::add_applet_to_dotlrn -applet_key [applet_key] -package_key [my_package_key]
     }
 
-    ad_proc -public remove_applet {
-        community_id
-        package_id
-    } {
+    ad_proc -public remove_applet {} {
         Remove the applet.
     } {
-        ad_return_complaint 1 "[applet_key] remove_applet not implemented!"
+        dotlrn_applet::remove_applet_from_dotlrn -applet_key [applet_key]
     }
 
     ad_proc -public add_applet_to_community {
@@ -123,7 +120,7 @@ namespace eval dotlrn_faq {
         ad_return_complaint 1 "[applet_key] remove_applet_from_community not implemented!"
     }
 
-    ad_proc -public add_user {
+    ad_proc -private add_user {
         user_id
     } {
         For one time user-specific init.
@@ -131,7 +128,7 @@ namespace eval dotlrn_faq {
         # noop
     }
 
-    ad_proc -public remove_user {
+    ad_proc -private remove_user {
         user_id
     } {
         Remove the user from dotlrn.
@@ -195,7 +192,7 @@ namespace eval dotlrn_faq {
         args
     } {
         This does the call to add the portlet to the given portal.
-        Params for the portlet are set by the calllers.
+        Params for the portlet are set by the callers.
 
         @param portal_id
         @param args An ns_set
@@ -237,15 +234,15 @@ namespace eval dotlrn_faq {
         return $new_package_id
     }
 
-    ad_proc -public change_event_handler {
+    ad_proc -private change_event_handler {
         community_id
         event
         old_value
         new_value
-    } { 
+    } {
         Listens for the events. This is currently empty.
     } {
-    }   
+    }
 
 }
 
